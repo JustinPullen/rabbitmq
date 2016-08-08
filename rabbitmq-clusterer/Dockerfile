@@ -1,4 +1,4 @@
-FROM rabbitmqlocal:3.6.2-management
+FROM rabbitmqlocal:3.6.5-management
 
 COPY rabbitmq_clusterer-3.6.x-667f92b0.ez $RABBITMQ_HOME/plugins
 

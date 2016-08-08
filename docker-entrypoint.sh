@@ -9,6 +9,11 @@ if [[ "$1" == rabbitmq* ]] && [ "$(id -u)" = '0' ]; then
 	exec gosu rabbitmq "$BASH_SOURCE" "$@"
 fi
 
+cluster=
+	if [ "$RABBITMQ_CLUSTERER_CONFIG" ]; then
+		cluster=1
+	fi
+
 # backwards compatibility for old environment variables
 : "${RABBITMQ_SSL_CERTFILE:=${RABBITMQ_SSL_CERT_FILE:-}}"
 : "${RABBITMQ_SSL_KEYFILE:=${RABBITMQ_SSL_KEY_FILE:-}}"
@@ -111,11 +116,6 @@ if [ "${#missingFiles[@]}" -gt 0 ]; then
 		echo
 	} >&2
 	exit 1
-fi
-
-cluster=
-if [ "$RABBITMQ_CLUSTERER_CONFIG" ]; then
-	cluster=1
 fi
 
 # set defaults for missing values (but only after we're done with all our checking so we don't throw any of that off)
@@ -265,24 +265,22 @@ if [ "$1" = 'rabbitmq-server' ] && [ "$haveConfig" ]; then
 	fi
 
 	if [ "$cluster" ]; then
-
 		IFS=$'\n'
 		unset IFS1
 
 		rabbitClusterConfig+=(
-			'{ config, "$RABBITMQ_CLUSTERER_CONFIG" }'
+			'{ config, "/etc/rabbitmq/cluster.config" }'
 		)
 
 		fullConfig+=(
-			"{ rabbitmq_clusterer, $(rabbit_array "${rabbitManagementListenerConfig}") }"
+			"{ rabbitmq_clusterer, $(rabbit_array "${rabbitClusterConfig}") }"
 		)
 		#cat >> /etc/rabbitmq/rabbitmq.config <<-EOS
 		#		]},
 		#		{ rabbitmq_clusterer, [
 		#		{ config, "$RABBITMQ_CLUSTERER_CONFIG" }
 		#EOS
-	fi
-fi	
+	fi 
 
 	echo "$(rabbit_array "${fullConfig[@]}")." > /etc/rabbitmq/rabbitmq.config
 fi
