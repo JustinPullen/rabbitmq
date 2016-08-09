@@ -42,8 +42,13 @@ RABBITMQ_CLUSTERER_CONFIG = True (this just tells the entry file to pick up the 
 
 RABBITMQ_BOOT_MODULE = rabbit_clusterer
 
-RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS = -pa $RABBITMdocker Q_HOME/plugins/rabbitmq_clusterer.ez/rabbitmq_clusterer-3.6.x-667f92b0/ebin
+RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS = -pa $RABBITMQ_HOME/plugins/rabbitmq_clusterer.ez/rabbitmq_clusterer-3.6.x-667f92b0/ebin
 
 ```
+
+
+After the instances are up run the below command on a node to set the Queues in HA mode.
+
+`rabbitmqctl set_policy ha-all "" '{"ha-mode":"all"}'`
 
 More information on the plugin at the source repo here: https://github.com/rabbitmq/rabbitmq-clusterer
