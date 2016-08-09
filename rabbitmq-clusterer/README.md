@@ -46,5 +46,4 @@ RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS = -pa $RABBITMdocker Q_HOME/plugins/rabbitmq
 
 ```
 
-
-More information on about the plugin at the source repo here: https://github.com/rabbitmq/rabbitmq-clusterer
+More information on the plugin at the source repo here: https://github.com/rabbitmq/rabbitmq-clusterer
