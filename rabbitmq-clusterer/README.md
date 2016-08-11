@@ -46,8 +46,10 @@ RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS = -pa $RABBITMQ_HOME/plugins/rabbitmq_cluste
 
 ```
 
+***!Remember you need to start All instances that are mentioned in the cluster.config for Rabbit to cluster for the first time!***
 
-After the instances are up run the below command on a node to set the Queues in HA mode.
+
+After the instances are up run the below command on a node to set the Queues in HA mode so they are mirrored accross all nodes.
 
 `rabbitmqctl set_policy ha-all "" '{"ha-mode":"all"}'`
 
